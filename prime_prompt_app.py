@@ -108,7 +108,7 @@ def main():
                     ha='center', va='bottom')
 
     # Add extra padding on top
-    ax.set_ylim(0, max(values) * 1.8 if max(values) > 0 else 1)
+    ax.set_ylim(0, max(values) * 1.4 if max(values) > 0 else 1)
 
     # Move annotation to top-right
     annotation = f"Day: {chosen_day}\nMultiplier: {day_multiplier:.4f}"
