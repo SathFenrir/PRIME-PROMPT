@@ -12,19 +12,19 @@ def load_multiplier_data(csv_path: str) -> pd.DataFrame:
       - Column 1 = 'some_int'
       - Column 2 = 'multiplier'
     """
-    df = pd.read_csv(csv_path, header=None)
+    df = pd.read_csv(csv_path, header=None, skiprows=1)
     df.columns = ['day', 'int_col', 'multiplier']  # rename for clarity
     return df
 
 def calculate_roi(token1_price, token2_price, day_multiplier):
     """
     Calculate ROI values given:
-      - token1_price: Price of Token 1 (holding value)
-      - token2_price: Price of Token 2
+      - token1_price: Price of PRIME (holding value)
+      - token2_price: Price of PROMPT
       - day_multiplier: The multiplier looked up from the table based on 'days locked up'
     
-    For demonstration, we treat '396' as a baseline total Token2 reward when the multiplier=1.
-    Then if the multiplier is e.g. 9.615405784, your total Token2 is 396 * 9.615405784.
+    For demonstration, we treat '396' as a baseline total PROMPT reward when the multiplier=1.
+    Then if the multiplier is e.g. 9.615405784, your total PROMPT is 396 * 9.615405784.
     """
     holding_value = token1_price
     # total_token2_reward = 396 * day_multiplier
@@ -53,8 +53,8 @@ def main():
     max_day = int(df['day'].max())
     
     # 2) Create the Streamlit sliders:
-    token1_price = st.slider("Token1 Price ($)", 0.5, 15.0, 2.94, step=0.1)
-    token2_price = st.slider("Token2 Price ($)", 0.10, 1.5, 0.5, step=0.05)
+    token1_price = st.slider("PRIME Price ($)", 0.5, 15.0, 2.94, step=0.1)
+    token2_price = st.slider("PROMPT Price ($)", 0.10, 1.5, 0.5, step=0.05)
     
     # Instead of the old multiplier slider, we now have:
     chosen_day = st.slider("Days Locked Up", min_day, max_day, 113, step=1)
@@ -72,13 +72,13 @@ def main():
     holding_value, locking_value, roi_ratio = calculate_roi(token1_price, token2_price, day_multiplier)
     
     # Display computed values
-    st.write(f"**Token 1 Price:** ${token1_price:.2f}")
-    st.write(f"**Token 2 Price:** ${token2_price:.2f}")
+    st.write(f"**PRIME Price:** ${token1_price:.2f}")
+    st.write(f"**PROMPT Price:** ${token2_price:.2f}")
     st.write(f"**Chosen Day (Locked):** {chosen_day}")
     st.write(f"**Day's Multiplier:** {day_multiplier:.6f}")
     st.write("")
-    st.write(f"**Holding Value (Token1):** ${holding_value:.2f}")
-    st.write(f"**Locking Value (396 × day_multiplier × Token2 Price):** ${locking_value:.2f}")
+    st.write(f"**Holding Value (PRIME):** ${holding_value:.2f}")
+    st.write(f"**Locking Value (396 × day_multiplier × PROMPT Price):** ${locking_value:.2f}")
     st.write(f"**ROI (Locking / Holding):** {roi_ratio:.2f}")
     
     if roi_ratio > 1:
@@ -90,11 +90,11 @@ def main():
     
     # 5) Create a bar chart for visual comparison
     fig, ax = plt.subplots(figsize=(6, 4))
-    labels = ['Holding Token1', 'Locking Token1']
+    labels = ['Holding PRIME', 'Locking PRIME']
     values = [holding_value, locking_value]
     bars = ax.bar(labels, values, color=['steelblue', 'seagreen'])
     
-    ax.set_ylabel('Dollar Value per Token1')
+    ax.set_ylabel('Dollar Value per PRIME')
     ax.set_title('ROI Comparison: Holding vs. Locking')
     
     # Annotate bars
