@@ -14,6 +14,7 @@ Windows:
 venv\Scripts\activate
 
 pip install --upgrade pip setuptools wheel
+
 pip install -r requirements.txt
 
 streamlit run prime_prompt_app.py
