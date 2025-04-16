@@ -22,17 +22,9 @@ def calculate_roi(token1_price, token2_price, day_multiplier):
       - token1_price: Price of PRIME (holding value)
       - token2_price: Price of PROMPT
       - day_multiplier: The multiplier looked up from the table based on 'days locked up'
-    
-    For demonstration, we treat '396' as a baseline total PROMPT reward when the multiplier=1.
-    Then if the multiplier is e.g. 9.615405784, your total PROMPT is 396 * 9.615405784.
     """
     holding_value = token1_price
-    # total_token2_reward = 396 * day_multiplier
-    #
-    # Or, if you had logic that originally used 396 for “113 weeks” 
-    # but now want partial calculations, adapt as needed. For simplicity,
-    # we’ll just do the above direct multiplication:
-    total_token2_reward = 396 * day_multiplier
+    total_token2_reward = day_multiplier
     
     locking_value = total_token2_reward * token2_price
     roi_ratio = 0
@@ -78,7 +70,7 @@ def main():
     st.write(f"**Day's Multiplier:** {day_multiplier:.6f}")
     st.write("")
     st.write(f"**Holding Value (PRIME):** ${holding_value:.2f}")
-    st.write(f"**Locking Value (396 × day_multiplier × PROMPT Price):** ${locking_value:.2f}")
+    st.write(f"**Locking Value (day_multiplier × PROMPT Price):** ${locking_value:.2f}")
     st.write(f"**ROI (Locking / Holding):** {roi_ratio:.2f}")
     
     if roi_ratio > 1:
@@ -90,12 +82,12 @@ def main():
     
     # 5) Create a bar chart for visual comparison
     fig, ax = plt.subplots(figsize=(6, 4))
-    labels = ['Holding PRIME', 'Locking PRIME']
+    labels = ['Holding PRIME', 'Caching PRIME']
     values = [holding_value, locking_value]
     bars = ax.bar(labels, values, color=['steelblue', 'seagreen'])
     
-    ax.set_ylabel('Dollar Value per PRIME')
-    ax.set_title('ROI Comparison: Holding vs. Locking')
+    ax.set_ylabel('Dollar Value ROI per PRIME Locked')
+    ax.set_title('ROI Comparison: Holding PRIME vs. Caching PRIME')
     
     # Annotate bars
     for bar in bars:
