@@ -6,6 +6,12 @@ if not hasattr(np, 'float'):
 if not hasattr(np, 'complex'):
     np.complex = complex
 
+import zipimport
+
+# Provide a fallback for the missing ZipImportError if needed.
+if not hasattr(zipimport, 'ZipImportError'):
+    zipimport.ZipImportError = ImportError  # or Exception if that fits better
+
 import streamlit as st
 import matplotlib.pyplot as plt
 import pandas as pd
