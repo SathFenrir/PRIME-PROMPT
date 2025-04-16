@@ -2,6 +2,7 @@
 Let's play with PRIME and PROMPT ROI
 
 git clone https://github.com/SathFenrir/PRIME-PROMPT.git
+
 cd PRIME-PROMPT
 
 python3 -m venv venv
