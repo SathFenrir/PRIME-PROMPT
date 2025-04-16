@@ -1,3 +1,10 @@
+import numpy as np
+if not hasattr(np, 'int'):
+    np.int = int
+if not hasattr(np, 'float'):
+    np.float = float
+if not hasattr(np, 'complex'):
+    np.complex = complex
 
 import streamlit as st
 import matplotlib.pyplot as plt
@@ -81,32 +88,37 @@ def main():
         st.write("**Result:** The strategies are at break-even.")
     
     # 5) Create a bar chart for visual comparison
-    fig, ax = plt.subplots(figsize=(6, 4))
-    labels = ['Holding PRIME', 'Caching PRIME']
+ 
+    fig, ax = plt.subplots(figsize=(8, 6))  # Make the figure 8 inches wide x 6 inches high
+
+    labels = ['Holding PRIME', 'Locking PRIME']
     values = [holding_value, locking_value]
     bars = ax.bar(labels, values, color=['steelblue', 'seagreen'])
-    
+
     ax.set_ylabel('Dollar Value ROI per PRIME Locked')
-    ax.set_title('ROI Comparison: Holding PRIME vs. Caching PRIME')
-    
+    ax.set_title('ROI Comparison: Holding PRIME vs. Locking PRIME')
+
     # Annotate bars
     for bar in bars:
         height = bar.get_height()
-        ax.annotate(f'${height:.2f}', 
-                    xy=(bar.get_x() + bar.get_width() / 2, height),
+        ax.annotate(f'${height:.2f}',
+                    xy=(bar.get_x() + bar.get_width()/2, height),
                     xytext=(0, 3),
                     textcoords="offset points",
                     ha='center', va='bottom')
-    
-    # Give some padding on the top so text doesn’t collide
-    ax.set_ylim(0, max(values) * 1.2 if max(values) > 0 else 1)
-    
-    # Annotate with the day + multiplier
+
+    # Add extra padding on top
+    ax.set_ylim(0, max(values) * 1.8 if max(values) > 0 else 1)
+
+    # Move annotation to top-right
     annotation = f"Day: {chosen_day}\nMultiplier: {day_multiplier:.4f}"
-    ax.text(0.05, 0.90, annotation, transform=ax.transAxes, 
-            fontsize=9, color='black', ha='left', va='top',
+    ax.text(0.95, 0.90, annotation,
+            transform=ax.transAxes,
+            fontsize=10,
+            color='black',
+            ha='right', va='top',
             bbox=dict(facecolor='white', alpha=0.6, edgecolor='none'))
-    
+
     st.pyplot(fig)
 
 if __name__ == "__main__":
