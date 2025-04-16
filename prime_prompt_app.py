@@ -1,29 +1,3 @@
-import sys
-import types
-
-# Create a dummy distutils module if it's missing
-try:
-    import distutils.core
-except ModuleNotFoundError:
-    dummy_distutils = types.ModuleType("distutils")
-    dummy_distutils.core = __import__("setuptools")
-    sys.modules["distutils"] = dummy_distutils
-    sys.modules["distutils.core"] = dummy_distutils.core
-
-import numpy as np
-if not hasattr(np, 'int'):
-    np.int = int
-if not hasattr(np, 'float'):
-    np.float = float
-if not hasattr(np, 'complex'):
-    np.complex = complex
-
-import zipimport
-
-# Provide a fallback for the missing ZipImportError if needed.
-if not hasattr(zipimport, 'ZipImportError'):
-    zipimport.ZipImportError = ImportError  # or Exception if that fits better
-
 import streamlit as st
 import matplotlib.pyplot as plt
 import pandas as pd
