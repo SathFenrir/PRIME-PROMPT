@@ -1,3 +1,15 @@
+import sys
+import types
+
+# Create a dummy distutils module if it's missing
+try:
+    import distutils.core
+except ModuleNotFoundError:
+    dummy_distutils = types.ModuleType("distutils")
+    dummy_distutils.core = __import__("setuptools")
+    sys.modules["distutils"] = dummy_distutils
+    sys.modules["distutils.core"] = dummy_distutils.core
+
 import numpy as np
 if not hasattr(np, 'int'):
     np.int = int
